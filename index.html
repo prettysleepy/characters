@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Amy's Character Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root{
+  --bg:#eaf4ff;
+  --card:#ffffff;
+  --ink:#111827;
+  --muted:#5b6475;
+  --brand:#3b82f6;
+  --brand-dark:#2563eb;
+  --soft:#f0f7ff;
+  --line:#d9deea;
+}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--bg);
+  padding:30px;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  background:white;
+  padding:30px;
+  border-radius:18px;
+}
+h1{
+  margin:0 0 10px;
+  font-size:40px;
+}
+p{
+  color:var(--muted);
+  line-height:1.5;
+}
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  margin:20px 0;
+}
+select{
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  font-size:16px;
+}
+button{
+  padding:14px 20px;
+  border:none;
+  border-radius:10px;
+  background:var(--brand);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:16px;
+}
+button:hover{
+  background:var(--brand-dark);
+}
+.output{
+  margin-top:20px;
+  background:var(--soft);
+  padding:20px;
+  border-radius:15px;
+  line-height:1.6;
+  font-size:18px;
+}
+.footer{
+  margin-top:30px;
+  text-align:center;
+}
+.footer a{
+  color:var(--brand);
+  font-weight:bold;
+  text-decoration:none;
+}
+@media(max-width:700px){
+  body{padding:16px;}
+  .controls{grid-template-columns:1fr;}
+  h1{font-size:34px;}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Amy's Character Generator</h1>
+  <p>Build a character with personality traits, flaws, a backstory, and goals.</p>
+
+  <p><a href="https://studentandwriter.com/category/characterization/" target="_blank" rel="noopener">Explore more characterization ideas here</a></p>
+
+  <div class="controls">
+    <select id="storyType">
+      <option>Surprise me</option>
+      <option>Romance</option>
+      <option>Fantasy</option>
+      <option>Mystery</option>
+      <option>Realistic Fiction</option>
+      <option>Adventure</option>
+    </select>
+
+    <select id="ageRange">
+      <option>Teen</option>
+      <option>Adult</option>
+      <option>Young adult</option>
+      <option>Older adult</option>
+    </select>
+
+    <select id="detailLevel">
+      <option>Balanced</option>
+      <option>Novel-ready</option>
+      <option>Student-friendly</option>
+    </select>
+  </div>
+
+  <button onclick="generate()">Generate Character</button>
+
+  <div id="output" class="output"></div>
+
+  <div class="footer">
+    <a href="https://studentandwriter.com/" target="_blank" rel="noopener">studentandwriter.com</a>
+    <p>word lists and more</p>
+  </div>
+</div>
+
+<script>
+const names = ["Maya","Jonah","Clara","Milo","Iris","Theo","Nina","Rowan","Lena","Finn","Sofia","Jude"];
+const traits = ["curious","sarcastic","loyal","quiet","bold","observant","creative","stubborn","gentle","ambitious"];
+const flaws = [
+  "avoids conflict until the problem gets bigger",
+  "lies to protect other people",
+  "fears failure more than they admit",
+  "pushes people away when they feel vulnerable",
+  "tries to control everything",
+  "uses jokes to avoid serious conversations"
+];
+const goals = [
+  "prove themselves",
+  "find the truth",
+  "protect someone they love",
+  "start over",
+  "win back trust",
+  "belong somewhere",
+  "solve a problem everyone else ignores"
+];
+const backstories = [
+  "grew up feeling overlooked",
+  "lost something important and never really talked about it",
+  "made a mistake that still follows them",
+  "was expected to be perfect",
+  "moved around so much that they learned not to get attached",
+  "comes from a family with a secret"
+];
+const secrets = [
+  "They know more than they admit.",
+  "They are protecting someone who may not deserve it.",
+  "They once caused the problem they are trying to solve.",
+  "They have a talent they are afraid to use.",
+  "They are hiding a promise they are not sure they can keep."
+];
+const problems = [
+  "A stranger arrives with a message meant only for them.",
+  "Someone accuses them of something they did not do.",
+  "Their biggest secret is almost exposed.",
+  "They are forced to work with someone they do not trust.",
+  "They discover that someone they admire has been lying."
+];
+
+function pick(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function generate(){
+  const name = pick(names);
+  const traitOne = pick(traits);
+  let traitTwo = pick(traits);
+  while(traitTwo === traitOne){
+    traitTwo = pick(traits);
+  }
+
+  const age = document.getElementById("ageRange").value.toLowerCase();
+  const storyType = document.getElementById("storyType").value;
+  const detailLevel = document.getElementById("detailLevel").value;
+
+  let extra = "";
+  if(detailLevel === "Novel-ready"){
+    extra = " Their character arc should push them from hiding behind their flaw to making one honest, difficult choice.";
+  } else if(detailLevel === "Student-friendly"){
+    extra = " A good scene for this character would show them facing a small problem that reveals who they really are.";
+  }
+
+  document.getElementById("output").innerText =
+    name + " is a " + age + " character for a " + storyType.toLowerCase() + " story. " +
+    "They are " + traitOne + " and " + traitTwo + ", but they " + pick(flaws) + ". " +
+    "Their backstory: they " + pick(backstories) + ". " +
+    "Their goal is to " + pick(goals) + ". " +
+    "Their secret: " + pick(secrets) + " " +
+    "Story problem: " + pick(problems) + extra;
+}
+
+generate();
+</script>
+
+</body>
+</html>
